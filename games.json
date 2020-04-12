@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "Fifa 20",
+    "year": 2019,
+    "price": 60,
+    "category": "Sport",
+    "publisher": "EA Sports",
+    "description": "Newest installment of legendary FIFA series"
+  },
+  {
+    "id": 2,
+    "title": "Counter Strike",
+    "year": 2000,
+    "price": 10,
+    "category": "Shooter",
+    "publisher": "Valve",
+    "description": "First person shooter with great multiplayer mode"
+  }
+]
