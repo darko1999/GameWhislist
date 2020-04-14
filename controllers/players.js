@@ -13,16 +13,24 @@ const addPlayer = async (req, res, next) => {
 };
 const addToWishlist = async (req, res, next) => {
   const { id } = req.params;
-  // Create a new car
-  const game = await Game.findById(req.body.game);
-  const player = await Player.findById(id);
-  game.players = player;
-  const save = await game.save();
-  player.games.push(game);
+  const { game } = req.body;
 
-  await player.save();
-  res.status(201).send(save);
-};
+  const player = await Player.findById(id);
+
+  console.log(player)
+  console.log(game)
+
+  if(player.games.includes(game)) {
+    res.status(200).send({msg: "Igra vec postoji u wishlist-i!"})
+  } else {
+      const igra = await Game.findById(game);
+      igra.players.push(id);
+      const save = await igra.save();
+      player.games.push(game);
+      await player.save();
+      res.status(201).send(save); 
+  }
+}; 
 const getPlayerGames = async (req, res, next) => {
   const { id } = req.params;
   const wishlist = await Player.findById(id).populate("games");
@@ -30,14 +38,11 @@ const getPlayerGames = async (req, res, next) => {
 };
 const deleteGame = async (req, res, next) => {
   const { id } = req.params;
-  const player = await Player.findById(id);
   const game = req.body.game;
-  for (let i = 0; i < player.games.length; i++)
-    if (player.wishlist.games[i].id === game) {
-      await game.delete;
-      res.status(200).send({ msg: "Game is deleted" });
-      break;
-    }
+
+  await Player.updateOne({_id: id}, { $pull: { games: { $in: game } }})
+  
+  res.status(200).send({ msg: "Game is deleted" });
 };
 const clearWishlist = async (req, res, next) => {
   await Player.deleteMany();

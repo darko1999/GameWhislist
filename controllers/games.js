@@ -41,7 +41,7 @@ const getGameByTitle = async (req, res, next) => {
 };
 const getGameById = async (req, res, next) => {
   const { id } = req.params;
-  const game = await Game.findById(id);
+  const game = await Game.findById(id).populate("players");
   res.status(200).send({ game });
 };
 const getGameDescription = async (req, res, next) => {

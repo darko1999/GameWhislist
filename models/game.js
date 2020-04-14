@@ -8,6 +8,10 @@ const game = new Schema({
   description: String,
   publisher: String,
   discount: Number,
+  players: [{
+    type: Schema.Types.ObjectId,
+    ref: "player"
+  }]
 });
 const Game = mongoose.model("game", game);
 module.exports = Game;
