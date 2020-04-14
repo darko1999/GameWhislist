@@ -1,14 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const wishlist = new Schema({
-  game: [
+const player = new Schema({
+  name: String,
+  games: [
     {
       type: Schema.Types.ObjectId,
-
       ref: "game",
     },
   ],
-  title: String,
 });
-const Wishlist = mongoose.model("wishlist", wishlist);
+const Wishlist = mongoose.model("player", player);
 module.exports = Wishlist;
