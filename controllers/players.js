@@ -17,9 +17,6 @@ const addToWishlist = async (req, res, next) => {
 
   const player = await Player.findById(id);
 
-  console.log(player)
-  console.log(game)
-
   if(player.games.includes(game)) {
     res.status(200).send({msg: "Igra vec postoji u wishlist-i!"})
   } else {
