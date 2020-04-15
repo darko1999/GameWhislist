@@ -16,32 +16,34 @@ const addToWishlist = async (req, res, next) => {
   const { game } = req.body;
 
   const player = await Player.findById(id);
-
-  if(player.games.includes(game)) {
-    res.status(200).send({msg: "Igra vec postoji u wishlist-i!"})
+  const igra = await Game.findById(game).catch((error) => {
+    return error;
+  });
+  console.log(igra);
+  if (player.games.includes(game)) {
+    res.status(200).send({ msg: "Igra vec postoji u wishlist-i!" });
   } else {
-      const igra = await Game.findById(game);
-      igra.players.push(id);
-      const save = await igra.save();
-      player.games.push(game);
-      await player.save();
-      res.status(201).send(save); 
+    igra.players.push(id);
+    const save = await igra.save();
+    player.games.push(game);
+    await player.save();
+    res.status(201).send(save);
   }
-}; 
-const getPlayerGames = async (req, res, next) => {
+};
+const getPlayerById = async (req, res, next) => {
   const { id } = req.params;
-  const wishlist = await Player.findById(id).populate("games");
-  res.status(200).send({ wishlist });
+  const player = await Player.findById(id).populate("games");
+  res.status(200).send({ player });
 };
 const deleteGame = async (req, res, next) => {
   const { id } = req.params;
   const game = req.body.game;
 
-  await Player.updateOne({_id: id}, { $pull: { games: { $in: game } }})
-  
+  await Player.updateOne({ _id: id }, { $pull: { games: { $in: game } } });
+
   res.status(200).send({ msg: "Game is deleted" });
 };
-const clearWishlist = async (req, res, next) => {
+const clearPlayers = async (req, res, next) => {
   await Player.deleteMany();
   res.status(200).send("Empty wishlist");
 };
@@ -49,7 +51,7 @@ module.exports = {
   getPlayers,
   addPlayer,
   addToWishlist,
-  getPlayerGames,
+  getPlayerById,
   deleteGame,
-  clearWishlist,
+  clearPlayers,
 };

@@ -75,6 +75,10 @@ const updateGame = async (req, res, next) => {
   await Game.findByIdAndUpdate(id, update);
   res.status(200).send({ msg: "Game is updated" });
 };
+const clearGames = async (req, res, next) => {
+  await Game.deleteMany();
+  res.status(200).send("No games");
+};
 
 module.exports = {
   showAllGames,
@@ -84,4 +88,5 @@ module.exports = {
   addGame,
   deleteGame,
   updateGame,
+  clearGames,
 };

@@ -8,16 +8,11 @@ const {
   getPlayers,
   addToWishlist,
   addPlayer,
-  getPlayerGames,
-  getGameById,
+  getPlayerById,
   deleteGame,
-  clearWishlist,
+  clearPlayers,
 } = Wishlist;
 
-router.route("/").get(getPlayers).post(addPlayer).delete(clearWishlist);
-router
-  .route("/:id")
-  .patch(addToWishlist)
-  .get(getPlayerGames)
-  .delete(deleteGame);
+router.route("/").get(getPlayers).post(addPlayer).delete(clearPlayers);
+router.route("/:id").patch(addToWishlist).get(getPlayerById).delete(deleteGame);
 module.exports = router;

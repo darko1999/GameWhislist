@@ -14,9 +14,14 @@ const {
   deleteGame,
   updateGame,
   getGameByTitle,
+  clearGames,
 } = Games;
 
-router.route("/").get(showAllGames).post(validation(addGameSchema), addGame);
+router
+  .route("/")
+  .get(showAllGames)
+  .post(validation(addGameSchema), addGame)
+  .delete(clearGames);
 router
   .route("/:id")
   .get(getGameById)
