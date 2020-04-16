@@ -4,12 +4,7 @@ const game = new Schema({
   title: String,
   price: Number,
   year: Number,
-  category: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "category",
-    },
-  ],
+  category: String,
   description: String,
   publisher: String,
   discount: Number,

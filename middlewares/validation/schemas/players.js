@@ -1,6 +1,13 @@
 const Joi = require("joi");
 
-const addWishSchema = Joi.object({
-  game: Joi.string.required,
+const addPlayerSchema = Joi.object({
+  name: Joi.string().min(5).required(),
 });
-module.exports = addWishSchema;
+
+const addWishSchema = Joi.object({
+  game: Joi.string()
+    .regex(/^[0-9a-f]{24}$/)
+    .required(),
+});
+
+module.exports = { addPlayerSchema, addWishSchema };

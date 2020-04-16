@@ -6,7 +6,7 @@ const addGameSchema = Joi.object({
   year: Joi.number().required(),
   price: Joi.number().required(),
   publisher: Joi.string().required(),
-  category: Joi.object().required(),
+  category: Joi.string().required(),
   discount: Joi.number().required(),
 });
 
