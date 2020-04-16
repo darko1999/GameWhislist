@@ -1,4 +1,5 @@
 const Game = require("../models/game");
+const Category = require("../models/category");
 
 const sortGames = (a, b, value) => {
   if (a[value] < b[value]) {
@@ -51,18 +52,25 @@ const getGameDescription = async (req, res, next) => {
   res.status(200).send({ desc });
 };
 const addGame = async (req, res, next) => {
+  const category = await Category.findById(req.body.category);
   const game = {
     title: req.body.title,
     year: req.body.year,
-    category: req.body.category,
     price: req.body.price,
     publisher: req.body.publisher,
     description: req.body.description,
     discount: req.body.discount,
+    category: category,
   };
-  const newGame = new Game(game);
-  const save = await newGame.save();
-  res.status(201).send({ msg: "Game is added", game: save });
+  if (category) {
+    delete game.category;
+    const newGame = new Game(game);
+    newGame.category = category.name;
+    const save = await newGame.save();
+    category.games.push(newGame);
+    const saveC = await category.save();
+    res.status(201).send({ game: save, category: saveC });
+  } else res.status(200).send({ error: "Wrong category" });
 };
 const deleteGame = async (req, res, next) => {
   const { id } = req.params;

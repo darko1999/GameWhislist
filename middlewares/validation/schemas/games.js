@@ -6,7 +6,9 @@ const addGameSchema = Joi.object({
   year: Joi.number().required(),
   price: Joi.number().required(),
   publisher: Joi.string().required(),
-  category: Joi.string().required(),
+  category: Joi.string()
+    .regex(/^[0-9a-f]{24}$/)
+    .required(),
   discount: Joi.number().required(),
 });
 
@@ -16,7 +18,7 @@ const updateGameSchema = Joi.object({
   year: Joi.number(),
   price: Joi.number(),
   publisher: Joi.string(),
-  category: Joi.object(),
+  category: Joi.string(),
   discount: Joi.number(),
 });
 
