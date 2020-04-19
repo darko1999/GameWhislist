@@ -12,5 +12,5 @@ const category = require("./routes/category");
 
 app.use("/api/v1/games", games);
 app.use("/api/v1/players", players);
-app.use("/api/v1/categories", category);
+app.use("/api/v1/category", category);
 app.listen(3000, () => console.log("server started"));
